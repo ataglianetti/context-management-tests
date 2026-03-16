@@ -22,8 +22,8 @@ bash run-test.sh --all --save --local ~/Desktop/context-management-starter-kit
 # Run with LLM quality evaluation (adds ~30s per persona)
 bash run-test.sh --all --eval --local ~/Desktop/context-management-starter-kit
 
-# Use sonnet for higher-quality eval (default is haiku for speed)
-bash run-test.sh --all --eval --eval-model sonnet --local ~/Desktop/context-management-starter-kit
+# Use haiku for faster/cheaper eval (default is sonnet)
+bash run-test.sh --all --eval --eval-model haiku --local ~/Desktop/context-management-starter-kit
 ```
 
 ### Eval Only (on existing results)

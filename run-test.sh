@@ -26,7 +26,7 @@ NC='\033[0m'
 
 save_baseline=false
 run_eval=false
-eval_model="haiku"
+eval_model="sonnet"
 local_path=""
 
 usage() {
@@ -36,7 +36,7 @@ usage() {
   echo "  --all            Run all personas in personas/"
   echo "  --save           Save output as baseline for future comparison"
   echo "  --eval           Run LLM quality evaluation after structural validation"
-  echo "  --eval-model <m> Model for eval: haiku (default), sonnet, opus"
+  echo "  --eval-model <m> Model for eval: sonnet (default), haiku, opus"
   echo "  --local <path>   Use local starter kit repo instead of cloning from GitHub"
   exit 1
 }

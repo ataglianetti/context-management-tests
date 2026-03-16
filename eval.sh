@@ -17,7 +17,7 @@ RESULTS_DIR="$SCRIPT_DIR/results"
 PERSONAS_DIR="$SCRIPT_DIR/personas"
 RUBRIC_FILE="$SCRIPT_DIR/eval-rubric.md"
 
-MODEL="haiku"
+MODEL="sonnet"
 
 # Colors
 RED='\033[0;31m'
@@ -32,7 +32,7 @@ usage() {
   echo "       $0 --all [--model <model>]"
   echo ""
   echo "  --all              Evaluate all completed runs in results/"
-  echo "  --model <model>    Claude model to use for eval (default: haiku)"
+  echo "  --model <model>    Claude model to use for eval (default: sonnet)"
   echo "                     Options: haiku, sonnet, opus"
   exit 1
 }
