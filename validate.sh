@@ -31,13 +31,13 @@ check() {
 
   if [ "$result" -eq 0 ]; then
     echo -e "${GREEN}PASS${NC} $description"
-    ((pass++))
+    pass=$((pass + 1))
   elif [ "$result" -eq 2 ]; then
     echo -e "${YELLOW}WARN${NC} $description"
-    ((warn++))
+    warn=$((warn + 1))
   else
     echo -e "${RED}FAIL${NC} $description"
-    ((fail++))
+    fail=$((fail + 1))
   fi
 }
 
@@ -269,10 +269,159 @@ case "$PERSONA_NAME" in
     file_contains ".claude/rules/core/thinking-partner.md" "burn" "thinking-partner addresses burn rate"
     ;;
 
+  ux-design-lead)
+    # Primary context: Vantage
+    dir_exists "Contexts/Vantage"
+    file_exists "Contexts/Vantage/Vantage.md"
+    has_frontmatter_field "Contexts/Vantage/Vantage.md" "type"
+
+    # People
+    dir_exists "Contexts/Vantage/People"
+    file_exists "Contexts/Vantage/People/Rebecca Huang.md"
+    file_exists "Contexts/Vantage/People/Liam Chen.md"
+    file_exists "Contexts/Vantage/People/Maya Williams.md"
+    file_exists "Contexts/Vantage/People/Aisha Okafor.md"
+
+    # People frontmatter
+    has_frontmatter_field "Contexts/Vantage/People/Rebecca Huang.md" "type"
+    has_frontmatter_field "Contexts/Vantage/People/Rebecca Huang.md" "context"
+
+    # Portfolio
+    dir_exists "Contexts/Vantage/Portfolio"
+
+    # Context rules
+    file_exists ".claude/rules/vantage/context.md"
+    file_exists ".claude/rules/vantage/collaborators.md"
+
+    # Content checks
+    file_contains ".claude/rules/core/user-profile.md" "design" "user-profile mentions design"
+    file_contains ".claude/rules/core/user-profile.md" "Figma" "user-profile mentions Figma"
+    file_contains ".claude/rules/core/thinking-partner.md" "design system" "thinking-partner mentions design system"
+    file_contains ".claude/rules/core/thinking-partner.md" "research" "thinking-partner mentions research debt"
+    file_contains ".claude/rules/core/work-state.md" "Design System" "work-state tracks Design System v2"
+    file_contains ".claude/rules/core/work-state.md" "Onboarding" "work-state tracks Onboarding Redesign"
+
+    # Freelance secondary context
+    file_contains ".claude/rules/core/work-state.md" "NovaPay" "work-state tracks NovaPay freelance project"
+
+    # Domain: design quality vs velocity tension
+    file_contains ".claude/rules/core/thinking-partner.md" "velocity" "thinking-partner addresses velocity vs quality"
+    ;;
+
+  freelance-consultant)
+    # Multiple client contexts (key differentiator for this persona)
+    dir_exists "Contexts/Meridian Retail"
+    file_exists "Contexts/Meridian Retail/Meridian Retail.md"
+    has_frontmatter_field "Contexts/Meridian Retail/Meridian Retail.md" "type"
+
+    dir_exists "Contexts/Cascadia Health Network"
+    file_exists "Contexts/Cascadia Health Network/Cascadia Health Network.md"
+    has_frontmatter_field "Contexts/Cascadia Health Network/Cascadia Health Network.md" "type"
+
+    dir_exists "Contexts/Bridges Foundation"
+    file_exists "Contexts/Bridges Foundation/Bridges Foundation.md"
+    has_frontmatter_field "Contexts/Bridges Foundation/Bridges Foundation.md" "type"
+
+    # People (spot-check across clients)
+    file_exists "Contexts/Meridian Retail/People/Angela Torres.md"
+    file_exists "Contexts/Cascadia Health Network/People/Dr. Vikram Patel.md"
+    file_exists "Contexts/Bridges Foundation/People/Keisha Williams.md"
+    file_exists "Contexts/Meridian Retail/People/Tom Nakamura.md"
+
+    # People frontmatter
+    has_frontmatter_field "Contexts/Meridian Retail/People/Angela Torres.md" "type"
+    has_frontmatter_field "Contexts/Meridian Retail/People/Angela Torres.md" "context"
+
+    # Portfolio in at least one context
+    dir_exists "Contexts/Meridian Retail/Portfolio"
+
+    # Context rules (at least Meridian)
+    file_exists ".claude/rules/meridian-retail/context.md"
+    file_exists ".claude/rules/meridian-retail/collaborators.md"
+
+    # Content checks
+    file_contains ".claude/rules/core/user-profile.md" "operating model" "user-profile mentions operating model expertise"
+    file_contains ".claude/rules/core/thinking-partner.md" "capacity" "thinking-partner mentions capacity allocation"
+    file_contains ".claude/rules/core/thinking-partner.md" "scope" "thinking-partner mentions scope creep"
+    file_contains ".claude/rules/core/work-state.md" "Meridian" "work-state tracks Meridian engagement"
+    file_contains ".claude/rules/core/work-state.md" "Cascadia" "work-state tracks Cascadia engagement"
+    file_contains ".claude/rules/core/work-state.md" "Bridges" "work-state tracks Bridges engagement"
+
+    # Subcontractor should appear
+    file_contains ".claude/rules/core/work-state.md" "Business Development" "work-state tracks business development"
+
+    # Domain: client navigation, solo practitioner
+    file_contains ".claude/rules/core/thinking-partner.md" "client" "thinking-partner addresses client dynamics"
+    ;;
+
+  data-science-lead)
+    # Context: Fielder Foods
+    dir_exists "Contexts/Fielder Foods"
+    file_exists "Contexts/Fielder Foods/Fielder Foods.md"
+    has_frontmatter_field "Contexts/Fielder Foods/Fielder Foods.md" "type"
+
+    # People
+    dir_exists "Contexts/Fielder Foods/People"
+    file_exists "Contexts/Fielder Foods/People/Diane Park.md"
+    file_exists "Contexts/Fielder Foods/People/James Okoye.md"
+    file_exists "Contexts/Fielder Foods/People/Rachel Kim.md"
+    file_exists "Contexts/Fielder Foods/People/Sam Torres.md"
+
+    # People frontmatter
+    has_frontmatter_field "Contexts/Fielder Foods/People/Diane Park.md" "type"
+    has_frontmatter_field "Contexts/Fielder Foods/People/Diane Park.md" "context"
+
+    # Portfolio
+    dir_exists "Contexts/Fielder Foods/Portfolio"
+
+    # Context rules
+    file_exists ".claude/rules/fielder-foods/context.md"
+    file_exists ".claude/rules/fielder-foods/collaborators.md"
+
+    # Content checks
+    file_contains ".claude/rules/core/user-profile.md" "data scien" "user-profile mentions data science"
+    file_contains ".claude/rules/core/user-profile.md" "Python" "user-profile mentions Python"
+    file_contains ".claude/rules/core/thinking-partner.md" "marketing mix" "thinking-partner mentions marketing mix model"
+    file_contains ".claude/rules/core/thinking-partner.md" "rigor" "thinking-partner addresses methodological rigor"
+    file_contains ".claude/rules/core/work-state.md" "Marketing Mix" "work-state tracks Marketing Mix Model"
+    file_contains ".claude/rules/core/work-state.md" "Segmentation" "work-state tracks Customer Segmentation"
+    file_contains ".claude/rules/core/work-state.md" "Experimentation" "work-state tracks Experimentation Platform"
+
+    # Domain: data quality and stakeholder translation
+    file_contains ".claude/rules/core/thinking-partner.md" "data quality" "thinking-partner addresses data quality"
+    ;;
+
   *)
     echo -e "${YELLOW}No persona-specific checks defined for: $PERSONA_NAME${NC}"
     ;;
 esac
+
+# ─── ANTI-FABRICATION CHECKS ───
+
+echo ""
+echo "── Anti-Fabrication Checks ──"
+
+# Check portfolio items for fabricated Status tables and milestone dates
+fabrication_count=0
+if [ -d "$VAULT_DIR/Contexts" ]; then
+  while IFS= read -r -d '' portfolio_file; do
+    rel_path="${portfolio_file#$VAULT_DIR/}"
+    # Check for ## Status table (should not exist at setup time)
+    if grep -q "^## Status" "$portfolio_file"; then
+      check "No Status table in $rel_path (setup should not create these)" 1
+      ((fabrication_count++))
+    fi
+    # Check for milestone-date in frontmatter
+    if awk '/^---$/{if(n++)exit}n' "$portfolio_file" | grep -q "^milestone-date:.\+"; then
+      check "No milestone-date in $rel_path (setup should not set dates)" 1
+      ((fabrication_count++))
+    fi
+  done < <(find "$VAULT_DIR/Contexts" -path "*/Portfolio/*/*.md" -print0 2>/dev/null)
+fi
+
+if [ "$fabrication_count" -eq 0 ]; then
+  check "No fabricated milestone dates or Status tables in portfolio items" 0
+fi
 
 # ─── SUMMARY ───
 
