@@ -54,6 +54,9 @@ Are all projects from the persona tracked with meaningful status?
 | 5 | Organizes projects under the right context headers, captures dependencies between projects |
 
 ### 5. Collaborator Modeling (person notes + collaborators.md)
+
+> **Expected output:** Individual person notes at `Contexts/[Context]/People/[Name].md` PLUS a collaborators.md overview at `.claude/rules/[context-name]/collaborators.md` (in the context-specific rules section). The overview groups people by team/role with relationship dynamics and framing guidance. Check both locations before scoring.
+
 Do person notes capture decision styles, relationships, and communication patterns?
 
 | Score | Criteria |
@@ -62,7 +65,7 @@ Do person notes capture decision styles, relationships, and communication patter
 | 2 | Title and team, but missing the dynamics that matter (how they make decisions, what framing works) |
 | 3 | Key relationship details present — reports-to, meeting cadence, general disposition |
 | 4 | Captures what matters for the user's work — decision styles, what framing lands, tensions and alliances |
-| 5 | A new PM taking over this vault could navigate every stakeholder relationship from these notes |
+| 5 | A new PM taking over this vault could navigate every stakeholder relationship from these notes. collaborators.md serves as a navigable overview with groupings, decision styles, and framing guidance that complements the individual person notes. |
 
 ### 6. Voice Match (writing-style.md)
 Does the writing style reflect the persona's stated communication preferences?

@@ -54,22 +54,34 @@ $(cat "$fpath")
   done
 
   # Context-specific rules (find all non-core, non-vault rule dirs)
-  find "$vault_dir/.claude/rules" -mindepth 2 -name "*.md" -not -path "*/core/*" -not -path "*/vault/*" 2>/dev/null | sort | while read -r f; do
+  output+="
+
+--- CONTEXT-SPECIFIC RULES (collaborators.md, context.md, portfolio.md per context) ---
+"
+  while IFS= read -r -d '' f; do
     local rel_path="${f#$vault_dir/}"
-    echo ""
-    echo "=== $rel_path ==="
-    cat "$f"
-  done | { output+="$(cat)"; echo "$output"; }
+    output+="
+=== $rel_path ===
+$(cat "$f")
+"
+  done < <(find "$vault_dir/.claude/rules" -mindepth 2 -name "*.md" -not -path "*/rules/core/*" -not -path "*/rules/vault/*" -print0 2>/dev/null | sort -z)
 
   # Context notes and person notes
+  output+="
+
+--- VAULT NOTES (context folders, person notes, portfolio items) ---
+"
   if [ -d "$vault_dir/Contexts" ]; then
-    find "$vault_dir/Contexts" -name "*.md" 2>/dev/null | sort | while read -r f; do
+    while IFS= read -r -d '' f; do
       local rel_path="${f#$vault_dir/}"
-      echo ""
-      echo "=== $rel_path ==="
-      cat "$f"
-    done
+      output+="
+=== $rel_path ===
+$(cat "$f")
+"
+    done < <(find "$vault_dir/Contexts" -name "*.md" -print0 2>/dev/null | sort -z)
   fi
+
+  echo "$output"
 }
 
 eval_persona() {
