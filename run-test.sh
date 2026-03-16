@@ -6,6 +6,8 @@
 #   bash run-test.sh --all                                          # all personas, clone from GitHub
 #   bash run-test.sh --all --local ~/Desktop/context-management-starter-kit  # use local copy
 #   bash run-test.sh --all --save                                   # run all and save baselines
+#   bash run-test.sh --all --eval                                   # run all + LLM quality eval
+#   bash run-test.sh --all --eval --eval-model sonnet               # eval with sonnet instead of haiku
 
 set -euo pipefail
 
@@ -23,14 +25,18 @@ YELLOW='\033[1;33m'
 NC='\033[0m'
 
 save_baseline=false
+run_eval=false
+eval_model="haiku"
 local_path=""
 
 usage() {
-  echo "Usage: $0 <persona-file|--all> [--save] [--local <path>]"
+  echo "Usage: $0 <persona-file|--all> [--save] [--eval] [--local <path>]"
   echo ""
   echo "  <persona-file>   Path to a persona markdown file"
   echo "  --all            Run all personas in personas/"
   echo "  --save           Save output as baseline for future comparison"
+  echo "  --eval           Run LLM quality evaluation after structural validation"
+  echo "  --eval-model <m> Model for eval: haiku (default), sonnet, opus"
   echo "  --local <path>   Use local starter kit repo instead of cloning from GitHub"
   exit 1
 }
@@ -48,6 +54,14 @@ while [[ $# -gt 0 ]]; do
     --save)
       save_baseline=true
       shift
+      ;;
+    --eval)
+      run_eval=true
+      shift
+      ;;
+    --eval-model)
+      eval_model="$2"
+      shift 2
       ;;
     --local)
       local_path="$2"
@@ -202,11 +216,18 @@ for persona in "${personas[@]}"; do
 done
 
 # Summary
-echo -e "${YELLOW}━━━ Results ━━━${NC}"
+echo -e "${YELLOW}━━━ Structural Results ━━━${NC}"
 echo -e "  ${GREEN}Passed: $pass${NC}"
 if [ $fail -gt 0 ]; then
   echo -e "  ${RED}Failed: $fail${NC}"
   exit 1
 else
   echo -e "  Failed: 0"
+fi
+
+# Run LLM quality eval if requested
+if [ "$run_eval" = true ]; then
+  echo ""
+  echo -e "${YELLOW}━━━ Quality Evaluation ━━━${NC}"
+  bash "$SCRIPT_DIR/eval.sh" --all --model "$eval_model"
 fi
